@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colores Principales (Fáciles de modificar luego) */
+  --color-primary: var(--color-blue-500);
+  --color-primary-hover: var(--color-blue-400);
+  --color-accent: var(--color-violet-500);
+  
+  /* Fondos Oscuros */
+  --color-bg-base: var(--color-slate-950);
+  --color-bg-surface: var(--color-slate-900);
+  --color-bg-surface-hover: var(--color-slate-800);
+  
+  /* Textos */
+  --color-text-base: var(--color-slate-300);
+  --color-text-muted: var(--color-slate-400);
+  --color-text-heading: var(--color-white);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-base);
+    color: var(--color-text-base);
+    font-family: var(--font-sans, system-ui, sans-serif);
+    -webkit-font-smoothing: antialiased;
+  }
+}
