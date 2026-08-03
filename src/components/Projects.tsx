@@ -14,7 +14,7 @@ const projectsData: ProjectCardProps[] = [
       "I2C",
       "Gestión de Memoria y Bajo Nivel"
     ],
-    github: "github.com/gschnaiderm/air-mouse"
+    github: "https://github.com/gschnaiderm/air-mouse"
   },
   {
     titulo: "Westeros Hotline",
@@ -28,7 +28,7 @@ const projectsData: ProjectCardProps[] = [
       "IA Generativa",
       "Unity UI Toolkit"
     ],
-    github: "github.com/gschnaiderm/westeros-hotline"
+    github: "https://github.com/gschnaiderm/westeros-hotline"
   },
   {
     titulo: "TowIt Payments",
@@ -41,7 +41,7 @@ const projectsData: ProjectCardProps[] = [
       "Mercado Pago",
       "Clerk",
     ],
-    github: "github.com/gschnaiderm/towit-payments",
+    github: "https://github.com/gschnaiderm/payments-towit",
   },
 ];
 
