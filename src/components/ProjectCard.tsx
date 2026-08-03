@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 export interface ProjectCardProps {
   titulo: string;
@@ -13,6 +14,12 @@ export interface ProjectCardProps {
 
 export default function ProjectCard({ titulo, imagenes, descripcion, caracteristicas, github }: ProjectCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const validImages = imagenes.filter(img => img && !img.includes("placeholder"));
   const hasImages = validImages.length > 0;
@@ -37,7 +44,11 @@ export default function ProjectCard({ titulo, imagenes, descripcion, caracterist
               style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
             >
               {validImages.map((src, idx) => (
-                <div key={idx} className="relative min-w-full h-full">
+                <div 
+                  key={idx} 
+                  className="relative min-w-full h-full cursor-pointer"
+                  onClick={() => setIsModalOpen(true)}
+                >
                   <Image 
                     src={src} 
                     alt={`${titulo} - Imagen ${idx + 1}`}
@@ -126,6 +137,73 @@ export default function ProjectCard({ titulo, imagenes, descripcion, caracterist
           ))}
         </div>
       </div>
+
+      {/* Modal para ver la imagen maximizada (usando Portal para evitar recortes por overflow y transforms) */}
+      {mounted && isModalOpen && hasImages && createPortal(
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-8 animate-in fade-in duration-300"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <button 
+            className="absolute top-4 right-4 md:top-8 md:right-8 p-3 text-white hover:text-primary transition-all bg-black/50 hover:bg-black/80 hover:scale-110 rounded-full z-50 shadow-2xl"
+            onClick={() => setIsModalOpen(false)}
+            aria-label="Cerrar imagen"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
+          <div 
+            className="relative w-full h-full max-w-7xl mx-auto flex items-center justify-center" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image 
+              src={validImages[currentImageIndex]} 
+              alt={`${titulo} - Imagen maximizada`}
+              fill
+              className="object-contain drop-shadow-2xl"
+              priority
+            />
+            
+            {validImages.length > 1 && (
+              <>
+                <button 
+                  onClick={prevImage}
+                  className="absolute left-2 md:left-4 p-4 rounded-full bg-black/70 text-white hover:bg-black hover:scale-110 hover:text-primary transition-all z-50 shadow-2xl backdrop-blur-md"
+                  aria-label="Imagen anterior"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 md:h-10 md:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button 
+                  onClick={nextImage}
+                  className="absolute right-2 md:right-4 p-4 rounded-full bg-black/70 text-white hover:bg-black hover:scale-110 hover:text-primary transition-all z-50 shadow-2xl backdrop-blur-md"
+                  aria-label="Imagen siguiente"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 md:h-10 md:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                {/* Dots indicator dentro del modal */}
+                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3 z-50 bg-black/20 py-2 w-max mx-auto px-4 rounded-full backdrop-blur-md">
+                  {validImages.map((_, idx) => (
+                    <button 
+                      key={idx}
+                      onClick={() => setCurrentImageIndex(idx)}
+                      className={`h-2.5 rounded-full transition-all ${idx === currentImageIndex ? "w-8 bg-primary" : "w-2.5 bg-white/50 hover:bg-white"}`}
+                      aria-label={`Ver imagen ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>,
+        document.body
+      )}
     </article>
   );
 }
