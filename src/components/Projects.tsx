@@ -31,15 +31,17 @@ const projectsData: ProjectCardProps[] = [
     github: "github.com/gschnaiderm/westeros-hotline"
   },
   {
-    titulo: "Plataforma Ecommerce y Gestión de Reservas (Híbrida)",
-    imagenes: ["/assets/proyecto-web-1.jpg", "/assets/proyecto-web-2.jpg"],
-    descripcion: "Sistema web integral desarrollado para una cervecería artesanal. El desafío principal radicó en sincronizar el inventario físico (ventas en el local) con el digital (compras online) en tiempo real para evitar la sobreventa. Se implementó una solución transaccional sólida a nivel de base de datos y un modelo de stock de seguridad (buffer), gestionando todo desde una arquitectura moderna y serverless.",
+    titulo: "TowIt Payments",
+    imagenes: ["/assets/towit-payments-1.png", "/assets/towit-payments-2.png", "/assets/towit-payments-3.png"],
+    descripcion: "Sistema de pagos seguro para una plataforma de pedido de gruas tipo Uber, donde los clientes son redirigidos para pagar con MercadoPago. La aplicación centraliza de forma autónoma el procesamiento, la validación y el registro de todo el ciclo de vida del dinero, abarcando cobros, desembolsos y reembolsos mediante la escucha activa de webhooks y la comunicación con APIs externas.\nConstruido sobre Next.js, el sistema integra Mercado Pago como pasarela de pago y Clerk para la gestión segura de identidad y autenticación. La capa de persistencia se administra mediante Drizzle ORM, destacando la implementación de bloqueos de base de datos (locks) transaccionales para prevenir condiciones de carrera. Esta arquitectura garantiza una consistencia estricta de los datos y asegura la serializabilidad absoluta en la ejecución de operaciones financieras concurrentes.",
     caracteristicas: [
-      "Next.js (App Router) & React",
-      "Neon Postgres (Serverless)",
-      "Drizzle ORM (Transacciones ACID)",
-      "Clerk (Autenticación Segura)"
-    ]
+      "Next.js",
+      "PostgreSQL",
+      "Drizzle ORM",
+      "Mercado Pago",
+      "Clerk",
+    ],
+    github: "github.com/gschnaiderm/towit-payments",
   },
 ];
 
